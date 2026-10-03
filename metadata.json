@@ -1,0 +1,6 @@
+{
+  "name": "Universo da Química — Portugal",
+  "description": "Biblioteca com 300 atividades de Química prontas a utilizar, adaptar ou imprimir para o 10.º, 11.º e 12.º ano do Ensino Secundário em Portugal.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

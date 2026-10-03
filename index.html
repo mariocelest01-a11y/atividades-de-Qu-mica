@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="pt-PT">
+  <head>
+    <script>
+      (function () {
+        try {
+          var currentFetch = window.fetch ? window.fetch.bind(window) : undefined;
+          var origDefineProperty = Object.defineProperty;
+
+          function makeFetchAccessor(initialFn) {
+            var fn = initialFn;
+            return {
+              configurable: true,
+              enumerable: true,
+              get: function () {
+                return fn;
+              },
+              set: function (v) {
+                if (typeof v === 'function') {
+                  fn = v;
+                }
+              },
+            };
+          }
+
+          if (currentFetch) {
+            origDefineProperty(window, 'fetch', makeFetchAccessor(currentFetch));
+            if (typeof Window !== 'undefined' && Window.prototype) {
+              origDefineProperty(Window.prototype, 'fetch', makeFetchAccessor(currentFetch));
+            }
+          }
+
+          Object.defineProperty = function (target, prop, descriptor) {
+            if (
+              (target === window ||
+                (typeof Window !== 'undefined' && target === Window.prototype)) &&
+              prop === 'fetch' &&
+              descriptor &&
+              descriptor.get &&
+              !descriptor.set
+            ) {
+              var getter = descriptor.get;
+              var customVal;
+              var hasCustom = false;
+              descriptor = Object.assign({}, descriptor, {
+                configurable: true,
+                get: function () {
+                  return hasCustom ? customVal : getter.call(this);
+                },
+                set: function (v) {
+                  customVal = v;
+                  hasCustom = true;
+                },
+              });
+            }
+            return origDefineProperty.call(Object, target, prop, descriptor);
+          };
+        } catch (_) {}
+      })();
+    </script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Universo da Química | 300 Atividades de Química — Ensino Secundário (10.º, 11.º e 12.º ano)</title>
+    <meta name="description" content="Pare de perder horas a criar atividades de Química do zero. Tenha 300 atividades prontas a utilizar, adaptar ou imprimir para o 10.º, 11.º e 12.º ano do Ensino Secundário." />
+    <meta property="og:title" content="Universo da Química | 300 Atividades de Química — Ensino Secundário" />
+    <meta property="og:description" content="Tenha 300 atividades prontas a utilizar, adaptar ou imprimir — organizadas por temas para o 10.º, 11.º e 12.º ano do Ensino Secundário em Portugal." />
+    <meta property="og:type" content="product" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Manrope:wght@400;500;600;700;800&display=swap" />
+    <!-- Meta Pixel Code -->
+    <script>
+      !function(f,b,e,v,n,t,s)
+      {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+      n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+      if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+      n.queue=[];t=b.createElement(e);t.async=!0;
+      t.src=v;s=b.getElementsByTagName(e)[0];
+      s.parentNode.insertBefore(t,s)}(window, document,'script',
+      'https://connect.facebook.net/en_US/fbevents.js');
+      fbq('init', '2400878463984512');
+      fbq('track', 'PageView');
+    </script>
+    <!-- End Meta Pixel Code -->
+  </head>
+  <body>
+    <noscript><img height="1" width="1" style="display:none"
+    src="https://www.facebook.com/tr?id=2400878463984512&ev=PageView&noscript=1"
+    /></noscript>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
+
